@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+authentication/__pycache__/
+authentication/migrations/
+broker/__pycache__/
+broker/migrations/
+taremi/__pycache__/
+

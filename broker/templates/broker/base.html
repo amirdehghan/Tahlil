@@ -1,0 +1,42 @@
+{% extends "base.html"%}
+{% load static %}
+
+{% block head %}
+  {{ block.super }}
+  <link href="{% static 'css/base.css' %}" rel="stylesheet">
+  <style>
+    .ui.menu .item img.logo {
+        margin-right: 1.5em;
+    }
+
+    .main.container {
+        margin-top: 7em;
+    }
+
+    .wireframe {
+        margin-top: 2em;
+    }
+
+    .ui.footer.segment {
+        margin: 5em 0em 0em;
+        padding: 5em 0em;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  {{ block.super }}
+  <div class="ui fixed menu">
+    <div class="ui container">
+      <a href="{% url 'home' %}" class="header item">
+        <img class="logo" src="{% static 'images/logo.png' %}">
+        Taremi
+      </a>
+      <div class="right menu">
+        <a href="{% url 'logout' %}" class="item">Logout</a>
+      </div>
+    </div>
+  </div>
+  {% block content %}
+  {% endblock %}
+{% endblock %}

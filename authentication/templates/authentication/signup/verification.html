@@ -1,0 +1,12 @@
+{% extends "authentication/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="ui message {{ type }}">{{ message|safe }}</div>
+
+    <script type="text/javascript">
+    setTimeout(function() {
+        window.location.href = "{% url 'home' %}"
+        }, 2000);
+    </script>
+{% endblock %}

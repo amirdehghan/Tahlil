@@ -1,0 +1,70 @@
+{% extends "broker/base.html"%}
+{% load static %}
+
+{% block content %}
+  <div class="ui main text container" style="padding-left: -10em; ">
+  <a class="fluid ui inverted secondary button" href="{% url 'view_profile' %}">View My Profile</a>
+  <br>
+  <a class="fluid ui inverted secondary button" href="{% url 'update_profile' %}">Update My Profile</a>
+    <h1 class="ui header">List of Available Applications</h1>
+    {% for form in forms %}
+      <div class="ui raised segment">
+          <div class="ui equal width grid">
+            <div class="column middle aligned center aligned">
+                <p>{{ form.course_id }}</p>
+            </div>
+
+            <div class="column middle aligned center aligned">
+                <div class="ui label">
+                  Instructor
+                  <div class="detail">{{ form.creator.get_full_name }}</div>
+                </div>
+            </div>
+
+            <div class="column middle aligned center aligned">
+                <div class="ui label">
+                  Deadline
+                  <div class="detail">{{ form.deadline|date:"M d" }}</div>
+                </div>
+            </div>
+
+            <div class="column middle aligned center aligned">
+                <a class="ui animated grey button" tabindex="0" href="{% url 'apply_form' id=form.id %}">
+                  <div class="visible content">Apply</div>
+                  <div class="hidden content">
+                    <i class="right arrow icon"></i>
+                  </div>
+              </a>
+            </div>
+
+          </div>
+      </div>
+    {% endfor %}
+    <h1 class="ui header">List of Ongoing Applications</h1>
+    {% for resp in responses %}
+      <div class="ui raised segment">
+          <div class="ui equal width grid">
+
+              <div class="column middle aligned center aligned">
+                  <p>{{ resp.get_form.course_id }}</p>
+              </div>
+
+              <div class="column middle aligned center aligned">
+                  <div class="ui label">
+                    Instructor
+                    <div class="detail">{{ resp.get_form.creator.get_full_name }}</div>
+                  </div>
+              </div>
+
+              <div class="column middle aligned center aligned">
+                  <div class="ui label {% if resp.state == 'a' %}green{% elif resp.state == 'd' %}red{% endif %}">
+                    {{ resp.get_state_display }}
+                  </div>
+              </div>
+
+          </div>
+      </div>
+    {% endfor %}
+
+  </div>
+{% endblock %}

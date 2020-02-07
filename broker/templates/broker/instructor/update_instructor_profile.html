@@ -1,0 +1,25 @@
+{% extends "broker/base.html"%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="ui main text container" style="padding-left: -10em; ">
+    <h1 class="ui header">Update Profile</h1>
+
+      <div class="ui raised segment">
+          <div class="ui equal width grid">
+            <div class="column middle aligned center aligned">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <br>
+                    <button class="ui primary button" type="submit">Save Changes</button>
+                    <a class="ui button" href="{% url 'instructor_home' %}">Back</a>
+                </form>
+            </div>
+          </div>
+      </div>
+
+
+  </div>
+{% endblock %}

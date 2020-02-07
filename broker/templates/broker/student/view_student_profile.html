@@ -1,0 +1,54 @@
+{% extends "broker/base.html"%}
+{% load static %}
+
+{% block content %}
+  <div class="ui main text container" style="padding-left: -10em; ">
+    <h1 class="ui header">Student Profile</h1>
+
+      <div class="ui raised segment">
+          <div class="ui equal width grid">
+            <div class="column middle aligned center aligned">
+                <p>Name: </p>
+            </div>
+
+            <div class="column middle aligned center aligned">
+                <p>{{ student.get_full_name }}</p>
+            </div>
+
+          </div>
+      </div>
+      <div class="ui raised segment">
+          <div class="ui equal width grid">
+            <div class="column middle aligned center aligned">
+                <p>Entrance Year: </p>
+            </div>
+
+            <div class="column middle aligned center aligned">
+                <p>{{ student.get_entrance_year }}</p>
+            </div>
+
+          </div>
+      </div>
+      <div class="ui raised segment">
+          <div class="ui equal width grid">
+            <div class="column middle aligned center aligned">
+                <p>Major: </p>
+            </div>
+
+            <div class="column middle aligned center aligned">
+                <p>{{ student.get_major }}</p>
+            </div>
+
+          </div>
+      </div>
+
+        <div class="ui form">
+            <div class="field">
+                <div class="ui top attached label">About Me</div>
+                <textarea disabled>{{ student.get_description }}</textarea>
+            </div>
+        </div>
+
+
+  </div>
+{% endblock %}
