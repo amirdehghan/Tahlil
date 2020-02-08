@@ -96,7 +96,7 @@ class update_profile(UpdateView):
         return self.request.user.instructor
 
 @login_required()
-def view_student_profile(request, pk):
-    instructor = Instructor.objects.get(instructor_id=pk)
+def view_instructor_profile(request, pk):
+    instructor = Instructor.objects.get(pk=pk)
     return render(request, 'broker/instructor/view_instructor_profile.html', context={'instructor': instructor})
 

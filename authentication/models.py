@@ -9,11 +9,11 @@ class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     student_id = models.IntegerField(primary_key=True)
-    major = models.CharField(null=True, max_length=2, choices=CONSTANTS.MAJORS)
-    first_name = models.CharField(null=True, max_length=20)
-    last_name = models.CharField(null=True, max_length=20)
-    entrance_year = models.IntegerField(null=True)
-    description = models.TextField(null=True)
+    major = models.CharField(null=True, blank=True, max_length=2, choices=CONSTANTS.MAJORS)
+    first_name = models.CharField(null=True, blank=True, max_length=20)
+    last_name = models.CharField(null=True, blank=True, max_length=20)
+    entrance_year = models.IntegerField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
 
     def get_full_name(self):
         if self.first_name is not None and self.last_name is not None:
@@ -45,10 +45,10 @@ class Student(models.Model):
 
 class Instructor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(null=True, max_length=20)
-    last_name = models.CharField(null=True, max_length=20)
-    rank = models.CharField(null=True, max_length=20, choices=CONSTANTS.RANKS)
-    description = models.TextField(null=True)
+    first_name = models.CharField(null=True, blank=True, max_length=20)
+    last_name = models.CharField(null=True, blank=True, max_length=20)
+    rank = models.CharField(null=True, blank=True, max_length=20, choices=CONSTANTS.RANKS)
+    description = models.TextField(null=True, blank=True)
 
     def get_full_name(self):
         if self.first_name is not None and self.last_name is not None:

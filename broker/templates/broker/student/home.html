@@ -15,10 +15,12 @@
             </div>
 
             <div class="column middle aligned center aligned">
-                <div class="ui label">
-                  Instructor
-                  <div class="detail">{{ form.creator.get_full_name }}</div>
-                </div>
+
+                <a class="ui labeled icon tiny button" tabindex="0" href="{% url 'instructor_form_detail' id=form.id %}">
+                    <i class="user icon"></i>
+                        {{ form.creator.get_full_name }}
+
+                </a>
             </div>
 
             <div class="column middle aligned center aligned">

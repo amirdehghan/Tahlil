@@ -8,7 +8,7 @@ class ApplicationForm(models.Model):
     course_id = models.CharField("course_id", max_length=10)
     creator = models.ForeignKey(Instructor, on_delete=models.CASCADE, related_name='forms')
     release_date = models.DateField("release_date", auto_now=True)
-    deadline = models.DateField("deadline", auto_now=True)
+    deadline = models.DateField("deadline")
     info = models.CharField("information", max_length=1000)
 
 
