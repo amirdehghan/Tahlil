@@ -11,12 +11,12 @@
       <div class="ui raised segment">
           <div class="ui equal width grid">
             <div class="column middle aligned center aligned">
-                <p>{{ form.course_id }}</p>
+               <p><a href="{% url 'view_course' pk=form.course.pk %}">{{ form.course.course_name }}</a></p>
             </div>
 
             <div class="column middle aligned center aligned">
 
-                <a class="ui labeled icon tiny button" tabindex="0" href="{% url 'instructor_form_detail' id=form.id %}">
+                <a class="ui labeled icon tiny button" tabindex="0" href="{% url 'student_view_instructor_profile' pk=form.creator.pk %}">
                     <i class="user icon"></i>
                         {{ form.creator.get_full_name }}
 

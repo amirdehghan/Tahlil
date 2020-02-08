@@ -6,12 +6,15 @@
     <a class="fluid ui inverted secondary button" href="{% url 'view_instructor_profile' %}">View My Profile</a>
   <br>
   <a class="fluid ui inverted secondary button" href="{% url 'update_instructor_profile' %}">Update My Profile</a>
+  <br>
+    <a class="fluid ui inverted secondary button" href="{% url 'create_course' %}">Create a Course</a>
+
     <h1 class="ui header">List of Applications</h1>
     {% for form in forms %}
       <div class="ui raised segment">
           <div class="ui equal width grid">
               <div class="column middle aligned center aligned">
-                  <p>{{ form.course_id }}</p>
+                  <p><a href="{% url 'view_course' pk=form.course.pk %}">{{ form.course.course_name }}</a></p>
               </div>
 
               <div class="column middle aligned center aligned">

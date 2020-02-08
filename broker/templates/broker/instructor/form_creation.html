@@ -203,11 +203,18 @@ input[type='checkbox']:checked {
 
       <h3 class="ui header"><div class="ui fluid labeled input">
         <div class="ui label">Course </div>
-        <input type="text" name="course" id="course" placeholder="Course">
+{#        <input type="text" name="course" id="course" placeholder="Course">#}
+          <select name="course" id="course" class="ui dropdown">
+              <option value="">Select Course</option>
+              {% for course in courses %}
+                <option value="{{ course.pk }}">{{ course.course_name }}</option>
+              {% endfor %}
+          </select>
       </div></h3>
       <h3 class="ui header"><div class="ui fluid labeled input">
         <div class="ui label">Info </div>
         <input type="text" name="info" id="info" placeholder="Info">
+
       </div></h3>
         <h3 class="ui header"><div class="ui fluid labeled input">
         <div class="ui label">Description </div>

@@ -6,14 +6,14 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import DeleteView, UpdateView
+from django.views.generic import DeleteView, UpdateView, CreateView
 from ..models import *
 from ..forms import render_form
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
 from authentication.forms import InstructorForm
-
+from authentication.decorators import active_required
 
 
 @login_required()
@@ -63,7 +63,9 @@ def instructor_response_detail(request, id):
 @login_required()
 def instructor_create_form(request):
     if request.method == "GET":
-        return render(request, 'broker/instructor/form_creation.html', {})
+        courses = Course.objects.filter(instructor=request.user.instructor)
+        print(courses)
+        return render(request, 'broker/instructor/form_creation.html', {'courses': courses})
     else:
         form = ApplicationForm(creator=request.user.instructor)
         form.release_date = datetime.now()
@@ -100,3 +102,23 @@ def view_instructor_profile(request, pk):
     instructor = Instructor.objects.get(pk=pk)
     return render(request, 'broker/instructor/view_instructor_profile.html', context={'instructor': instructor})
 
+@method_decorator([login_required], name='dispatch')
+class CreateCourse(CreateView):
+    model = Course
+    fields = ('course_id', 'course_name', 'requirement', )
+    template_name = 'broker/instructor/course_form.html'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        print(self.object)
+        self.object.instructor = self.request.user.instructor
+        self.object.save()
+        print(self.object)
+
+        return redirect('home')
+
+@login_required()
+@active_required()
+def view_course(request, pk):
+    course = Course.objects.get(pk=pk)
+    return render(request, 'broker/instructor/view_course.html', context={'course': course})

@@ -4,16 +4,25 @@ from broker.constants import *
 from authentication.models import Instructor, Student
 
 
+class Course(models.Model):
+    course_id = models.CharField("course ID", max_length=10)
+    course_name = models.CharField("course Name", max_length=10)
+    requirement = models.TextField("course Requirements")
+
+    instructor = models.ForeignKey(Instructor, on_delete=models.CASCADE, related_name='courses')
+
+
 class ApplicationForm(models.Model):
-    course_id = models.CharField("course_id", max_length=10)
+    # course_id = models.CharField("course_id", max_length=10)
     creator = models.ForeignKey(Instructor, on_delete=models.CASCADE, related_name='forms')
     release_date = models.DateField("release_date", auto_now=True)
     deadline = models.DateField("deadline")
     info = models.CharField("information", max_length=1000)
-
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='forms')
 
     def get_responses(self):
         return self.responses
+
 
 class Question(models.Model):
     class Meta:
@@ -50,8 +59,7 @@ class ApplicationResponse(models.Model):
 
     def get_form(self):
         return self.form
-    # todo
-    # constraints = for all answer in self.answers answer.question.form should be the same
+
 
 
 class Answer(models.Model):
