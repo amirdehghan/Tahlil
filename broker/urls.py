@@ -11,6 +11,7 @@ urlpatterns = [
     path('instructor/', views.instructor_home, name='instructor_home'),
     path('instructor/form/new/', views.instructor_create_form, name='create_form'),
     path('instructor/form/<int:id>/', views.instructor_form_detail, name='instructor_form_detail'),
+    path('instructor/form/<int:pk>/delete', views.FormDeleteView.as_view(), name='instructor_form_delete'),
     path('instructor/res/<int:id>/', views.instructor_response_detail, name='instructor_response_detail'),
     path('api/change_response_state', api.change_response_state, name='change_response_state'),
     path('student/view_profile/', views.view_profile, name='view_profile'),

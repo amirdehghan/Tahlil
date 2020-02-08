@@ -10,17 +10,20 @@ from django.urls import reverse
 
 
 
-from ..models import *
+from broker.models import *
+from authentication.decorators import active_required
 
 @login_required()
+@active_required()
 def student_home(request):
     student = request.user.student
-    forms = ApplicationForm.objects.exclude(questions__answers__response__owner=student)
+    forms = ApplicationForm.objects.exclude(responses__owner=student)
     responses = student.responses.all()
 
     return render(request, 'broker/student/home.html', context={'user':request.user, 'forms':forms, 'responses': responses})
 
 @login_required()
+@active_required()
 def application(request, id):
     form = ApplicationForm.objects.get(id=id)
 
@@ -30,7 +33,7 @@ def application(request, id):
 
         return render(request, 'broker/student/application.html', context={'form': form_html})
     else:
-        response = ApplicationResponse(owner=request.user.student, state = 'p')
+        response = ApplicationResponse(owner=request.user.student, state = 'p', form=form)
         response.save()
         save_form(form, request.POST, response)
 
@@ -41,11 +44,12 @@ def application_success(request):
 
 
 @login_required()
+@active_required()
 def view_profile(request):
     student = request.user.student
     return render(request, 'broker/student/view_student_profile.html', context={'student': student})
 
-@method_decorator([login_required], name='dispatch')
+@method_decorator([login_required, active_required], name='dispatch')
 class update_profile(UpdateView):
     model = Student
     form_class = StudentForm
@@ -59,6 +63,7 @@ class update_profile(UpdateView):
 
 
 @login_required()
+@active_required()
 def view_student_profile(request, pk):
     student = Student.objects.get(student_id=pk)
     return render(request, 'broker/student/view_student_profile.html', context={'student': student})

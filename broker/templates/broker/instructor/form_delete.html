@@ -1,0 +1,28 @@
+{% extends 'broker/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="ui main text container" style="padding-left: -10em; ">
+    <h1 class="ui header">Are you sure you want to delete the application form?</h1>
+        <form method="post">
+             {% csrf_token %}
+          <div class="ui equal width grid">
+              <div class="column middle aligned center aligned">
+
+
+                <button class="ui negative right labeled icon button">
+                  Yes<i class="trash alternate icon"></i>
+                </button>
+
+              </div>
+              <div class="column middle aligned center aligned">
+                  <a class="ui grey button"  href="{% url 'instructor_home' %}">
+                    <div class="visible content">Cancel</div>
+                </a>
+              </div>
+
+          </div>
+    </form>
+    </div>
+{% endblock %}

@@ -28,6 +28,7 @@ def login_user(request):
     if request.method == 'POST':
         req = request.POST
         user = authenticate(username=req['username'], password=req['password'])
+
         if not user:
             return render(request,'authentication/login.html',{'error_message': 'Wrong password'})
         else:
@@ -43,54 +44,34 @@ def logout_user(request):
 
 
 def signup_user(request):
-    # TODO get redir from POST/GET
     redirect_to = settings.LOGIN_REDIRECT_URL
 
     if request.user.is_authenticated:
         return redirect(redirect_to)
 
     if request.method == 'POST':
-        # TODO make user is_active=False, then send activation email
-        # form = StudentSignUpForm(request.POST)
-        # if(form.is_valid()):
-        #     print(1)
-        #     form.save()
-        #     return render(request, 'authentication/signup/verification.html',
-        #                   {'message': 'Your account was successfully created.', 'type': 'success'})
-        # print(2)
-        ####
         user = User(username='s_' + request.POST['student_id'])
         user.set_password(request.POST['password'])
-        user.save()
         user.is_active = False
+        user.save()
         student = Student(user=user, student_id=request.POST['student_id'])
         student.save()
 
-        print(1)
         current_site = get_current_site(request)
-        print(2)
         mail_subject = 'Activate your blog account.'
-        # print(current_site.domain)
         tk = account_activation_token.make_token(student.user)
-        print(user)
+
         message = render_to_string('acc_active_email.html', {
+            'domain': current_site,
             'user': request.POST['student_id'],
             'pk':request.POST['student_id'],
             'token':tk,
         })
-        print(3)
         to_email = request.POST['email']
-        print(4)
-        print(to_email)
         email = EmailMessage(mail_subject, message, to=[to_email])
         email.send()
 
-
-
-
-
-        # login(request, user)
-        return render(request, 'authentication/signup/verification.html', \
+        return render(request, 'authentication/signup/verification.html',
             {'message' : 'Your account was successfully created.', 'type' : 'success'})
 
 
@@ -103,14 +84,21 @@ def activate(request, uid, token):
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
-    print(user)
-    # tk = account_activation_token.make_token(user)
-    print(account_activation_token.check_token(user, token))
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
         login(request, user)
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return render(request, 'authentication/signup/verification.html',
+            {'message' : 'Thank you for your email confirmation. You will be redirected in a moment.', 'type' : 'success'})
     else:
-        return HttpResponse('Activation link is invalid!')
+        return render(request, 'authentication/signup/verification.html',
+                      {'message': 'Activation link is invalid!',
+                       'type': 'error'})
+
+
+def not_active(request):
+    logout(request)
+    return render(request, 'authentication/signup/verification.html',
+                  {'message': 'You account is not activated. You will be redirected!',
+                   'type': 'error'})

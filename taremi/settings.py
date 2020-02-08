@@ -152,3 +152,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'amir.dehghan7798@gmail.com'
 EMAIL_HOST_PASSWORD = 'bigboss1522'
 EMAIL_PORT = 587
+
+
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']

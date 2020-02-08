@@ -13,7 +13,7 @@ class ApplicationForm(models.Model):
 
 
     def get_responses(self):
-        return ApplicationResponse.objects.filter(answers__question__form=self).distinct()
+        return self.responses
 
 class Question(models.Model):
     class Meta:
@@ -46,9 +46,10 @@ class ApplicationResponse(models.Model):
     owner = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='responses')
     date = models.DateField("date_submitted", auto_now=True)
     state = models.CharField(max_length=1, choices=APPLICATION_STATES)
+    form = models.ForeignKey(ApplicationForm, on_delete=models.CASCADE, related_name='responses')
 
     def get_form(self):
-        return self.answers.first().question.form
+        return self.form
     # todo
     # constraints = for all answer in self.answers answer.question.form should be the same
 
